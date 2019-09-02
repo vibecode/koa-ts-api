@@ -40,10 +40,15 @@ export class InMemoryTaskRepo implements ITaskRepo {
 
   async delete(taskId: number): Promise<Task> {
     const idx = this.tasks.findIndex(t => t.id === taskId)
-    const task = this.tasks[idx]
 
-    this.tasks = this.tasks.filter(t => t.id !== taskId)
+    if (idx !== -1) {
+      const task = this.tasks[idx]
 
-    return task
+      this.tasks = this.tasks.filter(t => t.id !== taskId)
+
+      return task
+    } else {
+      throw new Error('can not find a task with this id')
+    }
   }
 }
